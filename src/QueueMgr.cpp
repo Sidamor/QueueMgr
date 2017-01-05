@@ -44,14 +44,14 @@ bool CPtrQueueMT::Initialize(TKU32 unQueueLen, FreeMemEvent hRelMem)
     Init();
     OnRelMem = hRelMem;
     memset(&m_hSemEmptyLck, 0, sizeof(sem_t));
-    m_hSemEmptyLck.__align = unQueueLen;
+    m_hSemEmptyLck->__dummy = unQueueLen;
     if (-1 == sem_init(&m_hSemEmptyLck, 0, unQueueLen))
     {
         return false;
     }
 
     memset(&m_hSemFullLck, 0, sizeof(sem_t));
-    m_hSemFullLck.__align = 0;
+    m_hSemFullLck->__dummy = 0;
     if (-1 == sem_init(&m_hSemFullLck, 0, (TKU32)0))
     {
         return false;
@@ -62,14 +62,14 @@ bool CPtrQueueMT::Initialize(TKU32 unQueueLen, FreeMemEvent hRelMem)
 
 
     memset(&m_hHeadLck, 0, sizeof(sem_t));
-    m_hHeadLck.__align = 1;
+    m_hHeadLck->__dummy = 1;
     if (-1 == sem_init(&m_hHeadLck, 0, (TKU32)1))
     {
         return false;
     }
 
     memset(&m_hTailLck, 0, sizeof(sem_t));
-    m_hTailLck.__align = 1;
+    m_hTailLck->__dummy = 1;
     if (-1 == sem_init(&m_hTailLck, 0, (TKU32)1))
     {
         return false;
