@@ -320,7 +320,7 @@ bool CPtrQueueMT::RemoveTail(QUEUEELEMENT& ptrObj, int nTimeout)
 {
     if (!m_bConsumerAllowed)
         return false;
-    ptrObj = NULL;
+    ptrObj = NULL; 
 
     if (PrimP(m_hSemFullLck, nTimeout) != 0)
         return false;
