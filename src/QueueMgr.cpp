@@ -1,4 +1,4 @@
-#include "QueueMgr.h"
+#include "../inc/QueueMgr.h"
 
 /*****************************************************************************
 	方法名: CPtrQueueMT
@@ -99,7 +99,7 @@ bool CPtrQueueMT::Initialize(TKU32 unQueueLen, FreeMemEvent hRelMem)
 *****************************************************************************/
 void CPtrQueueMT::Finalize(void)
 {
-    if (true == m_bInitialized)
+    if (m_bInitialized)
     {
         m_bProducerAllowed = false;
         m_bConsumerAllowed = false;
@@ -199,7 +199,7 @@ int CPtrQueueMT::PrimV(sem_t& hSem)
 *****************************************************************************/
 bool CPtrQueueMT::AddHead(QUEUEELEMENT ptrObj, int nTimeout)
 {
-    if (false == m_bProducerAllowed)
+    if (!m_bProducerAllowed)
         return false;
     if (PrimP(m_hSemEmptyLck, nTimeout) != 0)
         return false;
@@ -240,7 +240,7 @@ bool CPtrQueueMT::AddHead(QUEUEELEMENT ptrObj, int nTimeout)
 *****************************************************************************/
 bool CPtrQueueMT::AddTail(QUEUEELEMENT ptrObj, int nTimeout)
 {
-    if (false == m_bProducerAllowed)
+    if (!m_bProducerAllowed)
         return false;
     if (PrimP(m_hSemEmptyLck, nTimeout) != 0)
         return false;
@@ -278,7 +278,7 @@ bool CPtrQueueMT::AddTail(QUEUEELEMENT ptrObj, int nTimeout)
 *****************************************************************************/
 bool CPtrQueueMT::RemoveHead(QUEUEELEMENT& ptrObj, int nTimeout)
 {
-    if (false == m_bConsumerAllowed)
+    if (!m_bConsumerAllowed)
         return false;
     ptrObj = NULL;
 
@@ -318,7 +318,7 @@ bool CPtrQueueMT::RemoveHead(QUEUEELEMENT& ptrObj, int nTimeout)
 *****************************************************************************/
 bool CPtrQueueMT::RemoveTail(QUEUEELEMENT& ptrObj, int nTimeout)
 {
-    if (false == m_bConsumerAllowed)
+    if (!m_bConsumerAllowed)
         return false;
     ptrObj = NULL;
 
